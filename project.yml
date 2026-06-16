@@ -1,0 +1,63 @@
+name: Scanny
+options:
+  bundleIdPrefix: com.matranc
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: MRYMJMR49S
+    MARKETING_VERSION: "1.1"
+    CURRENT_PROJECT_VERSION: "3"
+    SWIFT_STRICT_CONCURRENCY: minimal
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+
+targets:
+  Scanny:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: Scanny
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.matranc.scanny
+        PRODUCT_NAME: Scanny
+        GENERATE_INFOPLIST_FILE: YES
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        INFOPLIST_KEY_CFBundleDisplayName: Scanny
+        INFOPLIST_KEY_NSCameraUsageDescription: "Scanny uses the camera to capture documents and turn them into PDFs."
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Scanny needs access to your photos so you can turn existing pictures into PDFs."
+        INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.productivity"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+
+schemes:
+  Scanny:
+    build:
+      targets:
+        Scanny: all
+    run:
+      config: Release
+      debugEnabled: false
+    test:
+      config: Release
+      debugEnabled: false
+    profile:
+      config: Release
+    analyze:
+      config: Release
+    archive:
+      config: Release
