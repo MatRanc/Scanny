@@ -52,6 +52,11 @@ struct DocumentDetailView: View {
     private func content(for document: ScanDocument) -> some View {
         VStack(spacing: 0) {
             pager(for: document)
+            // Always mounted (not just when a page is showing) so the pager's
+            // height stays constant across every slide, including the add-page card.
+            filterBar(for: document)
+                .opacity(isOnAddCard ? 0.35 : 1)
+                .disabled(isOnAddCard)
             controls(for: document)
         }
         .background(Color(.systemGroupedBackground))
@@ -98,18 +103,34 @@ struct DocumentDetailView: View {
             Text("This permanently removes the scan and its pages.")
         }
         .confirmationDialog(
-            "Apply \(selectedFilter.displayName) to all \(document.pageCount) pages?",
+            "Apply \(selectedFilter.displayName) to all \(document.pageCount) images?",
             isPresented: $showApplyAllConfirm,
             titleVisibility: .visible
         ) {
-            Button("Apply to All Pages") { applyLookToAllPages(document) }
+            Button("Apply to All Images") { applyLookToAllPages(document) }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This replaces each page's filter and any per-page adjustments.")
+            Text("This replaces each image's filter and any per-image adjustments.")
         }
         .task(id: documentID) { configureIfNeeded(document) }
         .onChange(of: document.pageFiles) { _, _ in regenerate() }
         .onChange(of: currentPage) { _, _ in syncControlsToCurrentPage() }
+        // Handlers live here, not in the pager, so they fire once rather than
+        // once per rendered page.
+        .onChange(of: selectedFilter) { _, newValue in
+            guard document.pageFiles.indices.contains(currentPage) else { return }
+            let filename = document.pageFiles[currentPage]
+            guard document.filter(forFile: filename) != newValue else { return }
+            store.setFilter(newValue, forPage: currentPage, in: document)
+            processedPages[filename] = nil
+            regenerate()
+        }
+        .onChange(of: bwAdjustment) { _, newValue in
+            guard document.pageFiles.indices.contains(currentPage) else { return }
+            let filename = document.pageFiles[currentPage]
+            guard document.bwAdjustment(forFile: filename) != newValue else { return }
+            livePreview(for: document)
+        }
     }
 
     @ViewBuilder
@@ -158,7 +179,8 @@ struct DocumentDetailView: View {
                 PageImageView(image: processedPages[filename])
                     .tag(index)
                     .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                    .padding(.top, 8)
+                    .padding(.bottom, 36)
             }
             // Always-present trailing card to add another page.
             AddPageCard(
@@ -168,7 +190,8 @@ struct DocumentDetailView: View {
             )
             .tag(document.pageCount)
             .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            .padding(.top, 8)
+            .padding(.bottom, 36)
         }
         .tabViewStyle(.page(indexDisplayMode: document.pageCount >= 1 ? .always : .never))
         .indexViewStyle(.page(backgroundDisplayMode: .interactive))
@@ -181,56 +204,61 @@ struct DocumentDetailView: View {
         return currentPage >= document.pageCount
     }
 
+    /// Editing controls for the current page: a single fixed bar below the
+    /// pager, not duplicated per swiped page (that used to change each page's
+    /// height and cause the TabView to jump, plus collide with the page dots).
+    private func filterBar(for document: ScanDocument) -> some View {
+        VStack(spacing: 10) {
+            Picker("Filter", selection: $selectedFilter) {
+                ForEach(ScanFilter.allCases) { option in
+                    Text(option.displayName).tag(option)
+                }
+            }
+            .pickerStyle(.segmented)
+
+            bwSliders($bwAdjustment)
+                .disabled(selectedFilter != .bw)
+                .opacity(selectedFilter == .bw ? 1 : 0.35)
+
+            HStack {
+                Button("Reset to Default") { bwAdjustment = .default }
+                    .font(.caption)
+                    .disabled(selectedFilter != .bw || bwAdjustment == .default)
+                    .opacity((selectedFilter == .bw && bwAdjustment != .default) ? 1 : 0)
+                    .animation(.easeInOut(duration: 0.2), value: selectedFilter == .bw && bwAdjustment != .default)
+
+                Spacer()
+
+                if document.pageCount > 1 {
+                    Button {
+                        showApplyAllConfirm = true
+                    } label: {
+                        Label("Apply to All Images", systemImage: "square.stack.3d.up")
+                            .font(.caption)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                }
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, -8)
+        .padding(.bottom, 12)
+        .animation(.smooth(duration: 0.2), value: selectedFilter)
+    }
+
     private func controls(for document: ScanDocument) -> some View {
         let onAddCard = isOnAddCard
         let hasPages = document.pageCount > 0
 
         return VStack(spacing: 10) {
-            if !onAddCard {
-                Picker("Filter", selection: $selectedFilter) {
-                    ForEach(ScanFilter.allCases) { filter in
-                        Text(filter.displayName).tag(filter)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .onChange(of: selectedFilter) { _, newValue in
-                    guard document.pageFiles.indices.contains(currentPage) else { return }
-                    let filename = document.pageFiles[currentPage]
-                    guard document.filter(forFile: filename) != newValue else { return }
-                    store.setFilter(newValue, forPage: currentPage, in: document)
-                    processedPages[filename] = nil
-                    regenerate()
-                }
-                .transition(.opacity)
-
-                if selectedFilter == .bw {
-                    bwSliders(for: document)
-                        .transition(.opacity.combined(with: .move(edge: .bottom)))
-                }
-
-                if document.pageCount > 1 {
-                    HStack {
-                        Spacer()
-                        Button {
-                            showApplyAllConfirm = true
-                        } label: {
-                            Label("Apply to All Pages", systemImage: "square.stack.3d.up")
-                                .font(.caption)
-                        }
-                        .buttonStyle(.bordered)
-                        .controlSize(.small)
-                    }
-                    .transition(.opacity)
-                }
-            }
-
             if !onAddCard || hasPages {
                 HStack(spacing: 12) {
                     if !onAddCard {
                         Button {
                             activeCover = .recrop(currentPage)
                         } label: {
-                            Label("Crop", systemImage: "crop")
+                            Label("Crop Image", systemImage: "crop")
                                 .font(.callout)
                         }
                         .buttonStyle(.bordered)
@@ -243,7 +271,7 @@ struct DocumentDetailView: View {
                         Button {
                             exportAndShare(document)
                         } label: {
-                            Label("Share PDF", systemImage: "square.and.arrow.up")
+                            Label("Create PDF", systemImage: "square.and.arrow.up")
                                 .font(.callout.weight(.semibold))
                         }
                         .buttonStyle(.borderedProminent)
@@ -262,27 +290,14 @@ struct DocumentDetailView: View {
         .frame(maxWidth: .infinity)
         .background(.bar)
         .animation(.smooth(duration: 0.28), value: onAddCard)
-        .animation(.smooth(duration: 0.28), value: selectedFilter)
     }
 
-    private func bwSliders(for document: ScanDocument) -> some View {
+    private func bwSliders(_ bw: Binding<BWAdjustment>) -> some View {
         VStack(spacing: 4) {
-            adjustmentSlider("Brightness", value: $bwAdjustment.brightness,
+            adjustmentSlider("Brightness", value: bw.brightness,
                              range: BWAdjustment.brightnessRange)
-            adjustmentSlider("Contrast", value: $bwAdjustment.contrast,
+            adjustmentSlider("Contrast", value: bw.contrast,
                              range: BWAdjustment.contrastRange)
-            HStack {
-                Spacer()
-                Button("Reset to Default") { bwAdjustment = .default }
-                    .font(.caption)
-                    .disabled(bwAdjustment == .default)
-            }
-        }
-        .onChange(of: bwAdjustment) { _, newValue in
-            guard document.pageFiles.indices.contains(currentPage) else { return }
-            let filename = document.pageFiles[currentPage]
-            guard document.bwAdjustment(forFile: filename) != newValue else { return }
-            livePreview(for: document)
         }
     }
 
