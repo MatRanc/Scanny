@@ -94,7 +94,7 @@ final class ScanCameraViewController: UIViewController {
 
     private func setupPreview() {
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
-        previewLayer.videoGravity = .resizeAspectFill
+        previewLayer.videoGravity = .resizeAspect
         previewLayer.frame = view.bounds
         view.layer.addSublayer(previewLayer)
     }
@@ -389,11 +389,11 @@ extension ScanCameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate
     }
 
     /// Map a normalised (top-left origin) point to view coords, matching the
-    /// preview's `resizeAspectFill`.
+    /// preview's `resizeAspect`.
     private func drawOverlay(_ quad: [CGPoint], bufferSize: CGSize) {
         guard bufferSize.width > 0, bufferSize.height > 0 else { return }
         let bounds = previewLayer.bounds
-        let scale = max(bounds.width / bufferSize.width, bounds.height / bufferSize.height)
+        let scale = min(bounds.width / bufferSize.width, bounds.height / bufferSize.height)
         let displayW = bufferSize.width * scale
         let displayH = bufferSize.height * scale
         let originX = (bounds.width - displayW) / 2
