@@ -522,13 +522,53 @@ private struct PageImageView: View {
                 .fill(Color(.systemBackground))
                 .shadow(color: .black.opacity(0.12), radius: 6, y: 2)
             if let image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
+                ZoomablePage(image: image)
                     .padding(6)
             } else {
                 ProgressView()
             }
+        }
+    }
+}
+
+/// Pinch to zoom, drag to pan while zoomed, springs back to fit on release.
+/// A UIScrollView because it already does all of that, and because at scale 1
+/// it has nothing to scroll, so the pager still gets the swipe.
+private struct ZoomablePage: UIViewRepresentable {
+    let image: UIImage
+
+    func makeUIView(context: Context) -> UIScrollView {
+        let scrollView = UIScrollView()
+        scrollView.delegate = context.coordinator
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = 5
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.backgroundColor = .clear
+        scrollView.bouncesZoom = true
+
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = scrollView.bounds
+        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        scrollView.addSubview(imageView)
+        context.coordinator.imageView = imageView
+        return scrollView
+    }
+
+    func updateUIView(_ scrollView: UIScrollView, context: Context) {
+        context.coordinator.imageView?.image = image
+    }
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    final class Coordinator: NSObject, UIScrollViewDelegate {
+        var imageView: UIImageView?
+
+        func viewForZooming(in scrollView: UIScrollView) -> UIView? { imageView }
+
+        func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+            scrollView.setZoomScale(1, animated: true)
         }
     }
 }
