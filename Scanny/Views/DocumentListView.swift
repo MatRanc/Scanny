@@ -9,6 +9,9 @@ struct DocumentListView: View {
     @State private var activeCover: Cover?
     @State private var renameTarget: ScanDocument?
     @State private var renameText = ""
+    @State private var isSelecting = false
+    @State private var selection = Set<ScanDocument.ID>()
+    @State private var showingDeleteConfirmation = false
 
     private enum Sheet: Int, Identifiable { case photos, about; var id: Int { rawValue } }
     private enum Cover: Identifiable {
@@ -123,26 +126,69 @@ struct DocumentListView: View {
     private var list: some View {
         List {
             ForEach(visibleDocuments) { doc in
-                NavigationLink(value: doc) {
-                    DocumentRow(document: doc)
-                }
-                .swipeActions(edge: .trailing) {
-                    Button(role: .destructive) {
-                        store.delete(doc)
-                    } label: {
-                        Label("Delete", systemImage: "trash")
+                row(for: doc)
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            store.delete(doc)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                        Button {
+                            renameTarget = doc
+                            renameText = doc.title
+                        } label: {
+                            Label("Rename", systemImage: "pencil")
+                        }
+                        .tint(.indigo)
                     }
-                    Button {
-                        renameTarget = doc
-                        renameText = doc.title
-                    } label: {
-                        Label("Rename", systemImage: "pencil")
-                    }
-                    .tint(.indigo)
-                }
             }
         }
         .listStyle(.insetGrouped)
+        .toolbar {
+            if isSelecting {
+                ToolbarItem(placement: .bottomBar) {
+                    Button(role: .destructive) {
+                        showingDeleteConfirmation = true
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .disabled(selection.isEmpty)
+                    .confirmationDialog(
+                        "Delete selected scans?",
+                        isPresented: $showingDeleteConfirmation,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Delete \(selection.count) Scan\(selection.count == 1 ? "" : "s")", role: .destructive) {
+                            deleteSelected()
+                        }
+                        Button("Cancel", role: .cancel) {}
+                    } message: {
+                        Text("This cannot be undone.")
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func row(for doc: ScanDocument) -> some View {
+        if isSelecting {
+            DocumentRow(document: doc, isSelecting: true, isSelected: selection.contains(doc.id))
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    withAnimation(.easeInOut(duration: 0.15)) {
+                        if selection.contains(doc.id) {
+                            selection.remove(doc.id)
+                        } else {
+                            selection.insert(doc.id)
+                        }
+                    }
+                }
+        } else {
+            NavigationLink(value: doc) {
+                DocumentRow(document: doc, isSelecting: false, isSelected: false)
+            }
+        }
     }
 
     @ToolbarContentBuilder
@@ -155,7 +201,20 @@ struct DocumentListView: View {
             }
             .accessibilityLabel("About Scanny")
         }
-        ToolbarItem(placement: .primaryAction) {
+        if !visibleDocuments.isEmpty {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(isSelecting ? "Done" : "Select") {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        isSelecting.toggle()
+                        if !isSelecting { selection.removeAll() }
+                    }
+                }
+            }
+            if #available(iOS 26.0, *) {
+                ToolbarSpacer(.fixed, placement: .topBarTrailing)
+            }
+        }
+        ToolbarItem(placement: .topBarTrailing) {
             Button {
                 newPDF()
             } label: {
@@ -192,6 +251,14 @@ struct DocumentListView: View {
         }
     }
 
+    private func deleteSelected() {
+        for doc in visibleDocuments where selection.contains(doc.id) {
+            store.delete(doc)
+        }
+        selection.removeAll()
+        isSelecting = false
+    }
+
     /// Creates the document after the presenting cover has dismissed, then
     /// navigates to it.
     private func createDocumentDeferred(pages: [PageInput]) {
@@ -212,9 +279,16 @@ struct DocumentListView: View {
 
 private struct DocumentRow: View {
     let document: ScanDocument
+    let isSelecting: Bool
+    let isSelected: Bool
 
     var body: some View {
         HStack(spacing: 14) {
+            if isSelecting {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundStyle(isSelected ? Color.accentColor : Color(UIColor.tertiaryLabel))
+                    .font(.title3)
+            }
             DocumentThumbnail(document: document, side: 54)
             VStack(alignment: .leading, spacing: 4) {
                 Text(document.title)
