@@ -57,7 +57,7 @@ struct DocumentDetailView: View {
             filterBar(for: document)
                 .opacity(isOnAddCard ? 0.35 : 1)
                 .disabled(isOnAddCard)
-                .animation(.easeInOut(duration: 0.6), value: isOnAddCard)
+                .animation(.easeInOut(duration: 0.4), value: isOnAddCard)
             controls(for: document)
         }
         .background(Color(.systemGroupedBackground))
