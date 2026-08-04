@@ -56,7 +56,7 @@ struct DocumentDetailView: View {
             // height stays constant across every slide, including the add-page card.
             filterBar(for: document)
                 .opacity(isOnAddCard ? 0.35 : 1)
-                .disabled(isOnAddCard)
+                .allowsHitTesting(!isOnAddCard)
                 .animation(.easeInOut(duration: 0.4), value: isOnAddCard)
             controls(for: document)
         }
