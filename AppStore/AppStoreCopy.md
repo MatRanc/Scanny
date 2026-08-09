@@ -199,8 +199,19 @@ You need screenshots for at least one iPhone size. The simplest accepted set:
 - **6.9" iPhone** (e.g. iPhone 16 Pro Max / 17 Pro Max), 1320 × 2868 px.
 - Optionally **6.5"/6.7"** and a **13" iPad** if you enable iPad.
 
-Capture from a real device or the simulator (the list, the page viewer with the
-filter bar, and the share sheet make good shots).
+Only the first 3 screenshots show on the install sheet, so put the strongest
+ones first.
+
+What each shot should show:
+
+1. **Document list** with a few scanned documents, showing the clean, empty-of-clutter list UI.
+2. **Camera scanning** mid-capture, with live edge detection drawn around a page.
+3. **Filter bar** on a page, showing the B&W / Grayscale / Original options (B&W selected, so the "scanner look" is obvious at a glance).
+4. **Crop editor** with the corner-drag handles and magnifier loupe visible.
+5. **Searchable text**, the share sheet or a zoomed page showing selected/highlighted OCR text.
+6. **Edit Pages** reorder view, optional, showing multi-page organization.
+
+Capture from a real device or the simulator:
 ```
 xcrun simctl io booted screenshot shot1.png
 ```
