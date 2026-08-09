@@ -23,9 +23,11 @@ accounts, no subscriptions, no network access.
   - **Original** – no processing.
 - **Re-crop any time** — non-destructive: the original photo and crop corners
   are kept, so re-cropping never loses content.
+- **Pinch-to-zoom** — zoom in on a page while reviewing a document.
 - **OCR → searchable PDF** — Vision recognizes the text and embeds an invisible,
   selectable text layer in the PDF, so it's fully searchable.
-- **Organize** — reorder pages, delete pages, rename, multi-page documents.
+- **Organize** — reorder and delete pages within a document (Edit Pages), rename
+  documents, and multi-select delete documents from the list.
 - **Share / AirDrop** — exports a PDF and opens the system share sheet (AirDrop,
   Files, Mail, etc.).
 
@@ -83,7 +85,7 @@ Developer signing identity. To upload:
 2. Select the **Scanny** target → **Signing & Capabilities**.
    - Check **Automatically manage signing**.
    - Choose your **Team**.
-   - The **Bundle Identifier** is preset to `com.matranc.scan2pdf`. Make sure
+   - The **Bundle Identifier** is preset to `com.matranc.scanny`. Make sure
      it's registered to your team (Xcode does this automatically with
      "Automatically manage signing").
 3. In [App Store Connect](https://appstoreconnect.apple.com), create a new app
@@ -93,7 +95,8 @@ Developer signing identity. To upload:
 5. In the Organizer that opens: **Distribute App ▸ TestFlight (Internal Only)**
    (or App Store Connect) and follow the prompts.
 
-Already configured for you: app icon, launch screen, version `1.0` / build `1`,
+Already configured for you: app icon, launch screen, version/build set in
+`project.yml` (`MARKETING_VERSION` / `CURRENT_PROJECT_VERSION`),
 camera & photo-library usage strings, and
 `ITSAppUsesNonExemptEncryption = NO` (so TestFlight won't ask about export
 compliance each build).
@@ -110,7 +113,7 @@ DEBUG and is never part of a Release/TestFlight build.
 
 ```bash
 # build & install a Debug build to a booted simulator, then:
-SIMCTL_CHILD_SEED_SELFTEST=1 xcrun simctl launch booted com.matranc.scan2pdf
+SIMCTL_CHILD_SEED_SELFTEST=1 xcrun simctl launch booted com.matranc.scanny
 # artifacts:
-open "$(xcrun simctl get_app_container booted com.matranc.scan2pdf data)/Documents/_selftest"
+open "$(xcrun simctl get_app_container booted com.matranc.scanny data)/Documents/_selftest"
 ```

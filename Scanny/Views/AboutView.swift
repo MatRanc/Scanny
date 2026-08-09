@@ -30,10 +30,21 @@ struct AboutView: View {
                                 .foregroundStyle(.tertiary)
                         }
                     }
+                    Button {
+                        if let url = URL(string: "https://github.com/MatRanc/Scanny") { openURL(url) }
+                    } label: {
+                        HStack {
+                            Label("View Source Code", systemImage: "chevron.left.forwardslash.chevron.right")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.footnote.weight(.semibold))
+                                .foregroundStyle(.tertiary)
+                        }
+                    }
                 } header: {
                     Text("Get in touch")
                 } footer: {
-                    Text("Opens your mail app to \(contactEmail). Ideas and requests are genuinely welcome.")
+                    Text("Ideas and requests are genuinely welcome.")
                 }
 
                 Section("Why it's free") {

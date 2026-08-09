@@ -35,7 +35,7 @@ Result: **4+**. (No objectionable content, no web access, no ads, no gambling.)
 
 ---
 
-## Version Information (for 1.0)
+## Version Information (for 1.2)
 
 **Promotional Text** — max 170 chars. Can be changed any time without review.
 ```
@@ -89,12 +89,30 @@ scanner,pdf,document,scan to pdf,ocr,searchable,airdrop,paperless,receipt,notes,
 ```
 (93 characters.)
 
-**What's New in This Version** — for 1.0 you can use:
+**What's New in This Version** — for 1.2:
 ```
-First release of Scanny. Scan with the camera or import photos, auto-crop pages, recognize text, and export clean, searchable PDFs — completely on-device and free.
+Pinch to zoom in on a page. A reworked Edit Pages flow for reordering and deleting pages. Multi-select delete for documents in the list. Smoother camera preview and filter bar animations.
 ```
 
-**Marketing URL** (optional): leave blank, or your repo / a simple landing page.
+**Support URL**
+```
+https://github.com/MatRanc/Scanny
+```
+
+**Marketing URL** (optional)
+```
+https://github.com/MatRanc/Scanny
+```
+
+**Copyright** — max 200 chars, format `YYYY Name`. (Confirm your legal name.)
+```
+2026 Mathieu Ranc
+```
+
+**Version:** `1.2` (set via `MARKETING_VERSION` in `project.yml`; bump
+`CURRENT_PROJECT_VERSION` for the build number each upload).
+
+**Routing App Coverage File:** N/A — no file (not a routing/navigation app).
 
 ---
 
@@ -141,9 +159,12 @@ Scanny is a free, fully on-device document scanner. Scan with the camera or impo
 
 ## App Review Information
 
-- **Sign-in required:** No. (No account or login anywhere in the app.)
-- **Demo account:** Not needed.
-- **Contact:** Mathieu — matranc03@gmail.com
+- **Sign-in required:** No. (No account or login anywhere in the app — leave
+  the "Sign-in required" checkbox unchecked.)
+- **Contact Information:** fill in your name, phone number, and email in the
+  App Store Connect form (not reproduced here — personal info shouldn't live
+  in the repo).
+- **Attachment:** not needed.
 - **Notes for the reviewer:**
 ```
 Scanny is a free, entirely on-device document scanner. There is no account, no backend, and no network connectivity — all image processing and text recognition (OCR) run locally using Apple's Vision and Core Image frameworks.
@@ -153,23 +174,22 @@ Camera access is used only for live document scanning. Photo selection uses the 
 To test: tap +, choose "Scan Document" (camera) or "Import Photos", pick the look, then tap "Share PDF" to export a searchable PDF.
 ```
 
+**App Store Version Release:** choose **Manually release this version** so
+you can confirm the build once approved, or **Automatically release** if you
+want it live the moment review passes.
+
 ---
 
 ## URLs you still need (required to submit)
 
-App Store Connect requires a working **Privacy Policy URL** and **Support URL**.
-You don't have to build a website — easy options:
+App Store Connect requires a working **Privacy Policy URL** and a **Support
+URL**. The repo is public, so use:
 
-1. **GitHub Pages / repo (free):** push this repo to GitHub, then use:
-   - Privacy Policy URL: `https://github.com/<you>/Scanny/blob/main/AppStore/PrivacyPolicy.md`
-   - Support URL: `https://github.com/<you>/Scanny` (or `.../issues`)
-2. **A GitHub Gist:** paste `PrivacyPolicy.md` into a public gist and use its URL.
-3. **A one-page site** (Carrd, Notion public page, etc.) with the policy and a
-   contact email.
+- **Privacy Policy URL:** `https://github.com/MatRanc/Scanny/blob/main/AppStore/PrivacyPolicy.md`
+- **Support URL:** `https://github.com/MatRanc/Scanny` (or `.../issues` if you
+  want bug reports to land as GitHub issues)
 
-Support URL can be as simple as a page that lists your contact email
-(matranc03@gmail.com). The Privacy Policy URL must point at the policy text in
-`AppStore/PrivacyPolicy.md`.
+Both are also linked from the app itself (About ▸ View Source Code).
 
 ---
 
