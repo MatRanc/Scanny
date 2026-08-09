@@ -231,7 +231,7 @@ struct CropEditorView: View {
     }
 
     /// "Auto" restores the detection the screen opened with (e.g. the live
-    /// camera result), rather than re-detecting on the still — which wouldn't
+    /// camera result), rather than re-detecting on the still, which wouldn't
     /// reproduce it. After a rotation the baseline is refreshed in `rotate()`.
     private func resetCorners() {
         if let baselineCorners {

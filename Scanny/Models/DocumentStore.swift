@@ -246,7 +246,7 @@ final class DocumentStore {
                 document.cropCorners[name] = corners
             }
             // Stamp the current defaults as this page's explicit look so it stays
-            // independent — later changes to the document default (a template for
+            // independent, later changes to the document default (a template for
             // *future* pages) never retroactively alter existing pages.
             document.pageFilters[name] = document.filter
             document.pageBW[name] = document.bw

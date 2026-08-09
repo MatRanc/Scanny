@@ -15,7 +15,7 @@ func color(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat, _ a: CGFloat = 1) -> CGColo
 }
 let white = color(1, 1, 1)
 
-// Opaque (no alpha) — App Store rejects icons with alpha.
+// Opaque (no alpha), App Store rejects icons with alpha.
 guard let ctx = CGContext(
     data: nil, width: N, height: N, bitsPerComponent: 8, bytesPerRow: 0,
     space: cs, bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue

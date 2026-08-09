@@ -5,8 +5,8 @@ import UIKit
 
 /// A custom document camera built on AVFoundation + Vision.
 ///
-/// Keeps the "Apple feel" — live edge detection, flash, and auto-shutter when a
-/// steady page is framed — but without VisionKit's multi-page thumbnail
+/// Keeps the "Apple feel", live edge detection, flash, and auto-shutter when a
+/// steady page is framed, but without VisionKit's multi-page thumbnail
 /// collection. Each capture is auto-cropped to the detected page; the user stays
 /// in the camera with a running page counter and taps Done to return.
 struct ScanCameraView: UIViewControllerRepresentable {
@@ -407,7 +407,7 @@ extension ScanCameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate
         for p in points.dropFirst() { path.addLine(to: p) }
         path.close()
 
-        // Don't animate the path implicitly — we already smooth the data.
+        // Don't animate the path implicitly, we already smooth the data.
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         overlayLayer.path = path.cgPath
