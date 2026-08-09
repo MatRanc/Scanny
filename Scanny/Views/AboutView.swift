@@ -48,7 +48,7 @@ struct AboutView: View {
                 }
 
                 Section("Why it's free") {
-                    Text("Scanning a document is about as basic as it gets — tools this basic shouldn't cost you a subscription, bury you in ads, or sell your data. Scanny does one job well, stays free, and keeps your documents on your device. No catch.")
+                    Text("Scanning a document is about as basic as it gets, tools this basic shouldn't cost you a subscription, bury you in ads, or sell your data. Scanny does one job well, stays free, and keeps your documents on your device. No catch.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
@@ -119,7 +119,7 @@ struct AboutView: View {
         let info = Bundle.main.infoDictionary
         let version = info?["CFBundleShortVersionString"] as? String ?? "1.0"
         let build = info?["CFBundleVersion"] as? String ?? "1"
-        let body = "\n\n———\nScanny \(version) (\(build))\niOS \(UIDevice.current.systemVersion)"
+        let body = "\n\n---\nScanny \(version) (\(build))\niOS \(UIDevice.current.systemVersion)"
         components.queryItems = [
             URLQueryItem(name: "subject", value: "Scanny Feature Request"),
             URLQueryItem(name: "body", value: body)

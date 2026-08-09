@@ -5,30 +5,30 @@ photos, get automatic edge-detection + perspective crop, a real "scanner look"
 (color / grayscale / high-contrast B&W), on-device OCR, and a **searchable PDF**
 you can AirDrop in two taps.
 
-It's a lean alternative to Adobe Scan, built entirely on Apple frameworks — no
+It's a lean alternative to Adobe Scan, built entirely on Apple frameworks, no
 accounts, no subscriptions, no network access.
 
 ## Features
 
-- **Camera scanning** — VisionKit's document camera with live edge detection,
+- **Camera scanning**, VisionKit's document camera with live edge detection,
   perspective correction, and multi-page capture.
-- **Import photos** — pick one or many images; the page is auto-detected, and
+- **Import photos**, pick one or many images; the page is auto-detected, and
   you can fine-tune the crop by dragging the corners (a magnifier loupe follows
   your finger) before perspective correction.
-- **Scanner looks** — per-document filter:
+- **Scanner looks**, per-document filter:
   - **B&W** – a true "photocopy" using flat-field background correction so
     shadows and uneven lighting disappear and the paper goes pure white, with
     Brightness/Contrast sliders to fine-tune it.
   - **Grayscale** – neutral grayscale with boosted contrast.
   - **Original** – no processing.
-- **Re-crop any time** — non-destructive: the original photo and crop corners
+- **Re-crop any time**, non-destructive: the original photo and crop corners
   are kept, so re-cropping never loses content.
-- **Pinch-to-zoom** — zoom in on a page while reviewing a document.
-- **OCR → searchable PDF** — Vision recognizes the text and embeds an invisible,
+- **Pinch-to-zoom**, zoom in on a page while reviewing a document.
+- **OCR → searchable PDF**, Vision recognizes the text and embeds an invisible,
   selectable text layer in the PDF, so it's fully searchable.
-- **Organize** — reorder and delete pages within a document (Edit Pages), rename
+- **Organize**, reorder and delete pages within a document (Edit Pages), rename
   documents, and multi-select delete documents from the list.
-- **Share / AirDrop** — exports a PDF and opens the system share sheet (AirDrop,
+- **Share / AirDrop**, exports a PDF and opens the system share sheet (AirDrop,
   Files, Mail, etc.).
 
 Everything runs **on device**. The app declares no network use.

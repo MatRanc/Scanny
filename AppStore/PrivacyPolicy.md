@@ -29,7 +29,7 @@ this content is uploaded anywhere.
 Your scans and the PDFs you create are stored **only on your device**, inside the
 app. They are removed when you delete a scan or delete the app. If you have
 iCloud Backup enabled for your device, your scans may be included in your own
-encrypted Apple backup — this is handled by Apple, not by Scanny.
+encrypted Apple backup, this is handled by Apple, not by Scanny.
 
 When you tap Share, the PDF is handed to the destination you pick (for example
 AirDrop, Files, Mail, or Messages). What happens after that is governed by that
