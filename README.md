@@ -8,6 +8,12 @@ you can AirDrop in two taps.
 It's a lean alternative to Adobe Scan, built entirely on Apple frameworks, no
 accounts, no subscriptions, no network access.
 
+<p align="center">
+  <img src="docs/screenshot-empty.png" width="32%" />
+  <img src="docs/screenshot-scan.png" width="32%" />
+  <img src="docs/screenshot-crop.png" width="32%" />
+</p>
+
 ## Features
 
 - **Camera scanning**, VisionKit's document camera with live edge detection,
