@@ -10,8 +10,8 @@ accounts, no subscriptions, no network access.
 
 <p align="center">
   <img src="docs/screenshot-empty.png" width="32%" />
-  <img src="docs/screenshot-scan.png" width="32%" />
   <img src="docs/screenshot-crop.png" width="32%" />
+  <img src="docs/screenshot-scan.png" width="32%" />
 </p>
 
 ## Features
