@@ -20,10 +20,11 @@ If "Scanny" is taken, use one of these (each ≤30 and adds a search keyword):
 - `Scanny – Document Scanner` (27)
 
 **Subtitle**, max 30 chars (shown under the name; great for keywords).
+No price references allowed here (Apple 2.3.7) — "free" included.
 ```
-Free, on-device PDF scanner
+On-device PDF scanner & OCR
 ```
-Alternatives: `Scan documents to PDF, free` (27) · `Private on-device scanner` (25)
+Alternatives: `Scan documents to PDF` (21) · `Private on-device scanner` (25)
 
 **Primary Category:** Productivity
 **Secondary Category:** Utilities
@@ -39,11 +40,11 @@ Result: **4+**. (No objectionable content, no web access, no ads, no gambling.)
 
 **Promotional Text**, max 170 chars. Can be changed any time without review.
 ```
-Turn paper into clean, searchable PDFs on your iPhone. Auto-crop, OCR, and scanner-style filters. 100% on-device, completely free, no ads, accounts, or tracking.
+Turn paper into clean, searchable PDFs on your iPhone. Auto-crop, OCR, and scanner-style filters. 100% on-device. No ads, accounts, or tracking.
 ```
 Alternative (mission-led):
 ```
-Clean, searchable PDFs, free and 100% on your device. No subscriptions, no ads, no data harvesting. Basic tools should be free and private. This one is.
+Clean, searchable PDFs, 100% on your device. No subscriptions, no ads, no data harvesting. Basic tools should just work and stay private. This one does.
 ```
 
 **Description**, max 4000 chars.
@@ -85,7 +86,7 @@ Perfect for receipts, invoices, contracts, notes, IDs, forms, homework, and anyt
 **Keywords**, max 100 chars, comma-separated, no spaces after commas. (Don't
 repeat words already in the name/subtitle; Apple combines terms automatically.)
 ```
-scanner,pdf,document,scan to pdf,ocr,searchable,airdrop,paperless,receipt,notes,doc scan,free
+scanner,pdf,document,scan to pdf,ocr,searchable,airdrop,paperless,receipt,notes,doc scan,paperless scanner
 ```
 (93 characters.)
 
