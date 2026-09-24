@@ -1,5 +1,7 @@
 # Scanny
 
+**[Download on the App Store](https://apps.apple.com/app/id6777858441)**
+
 A no-bullshit iOS document scanner. Capture pages with the camera or import
 photos, get automatic edge-detection + perspective crop, a real "scanner look"
 (color / grayscale / high-contrast B&W), on-device OCR, and a **searchable PDF**
